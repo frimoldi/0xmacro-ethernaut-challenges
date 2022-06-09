@@ -14,7 +14,7 @@ contract King {
     }
 
     receive() external payable {
-        require(msg.value >= prize || msg.sender == owner);
+        require(msg.value >= prize || msg.sender == owner, "here");
         king.transfer(msg.value);
         king = payable(msg.sender);
         prize = msg.value;
